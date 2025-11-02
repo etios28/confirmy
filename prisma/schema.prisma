@@ -1,0 +1,37 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Plan {
+  STARTER   // 1 / mois
+  PRO       // 1 / semaine
+  BUSINESS  // quotidien
+}
+
+model Website {
+  id            String   @id @default(cuid())
+  url           String   @unique
+  status        String   @default("pending")
+  report        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastScannedAt DateTime?
+  nextScanAt    DateTime?
+  plan          String   @default("SCAN_UNIQUE") // 👈 ajoute cette ligne
+  scans         Scan[]
+}
+
+
+model Scan {
+  id        String   @id @default(cuid())
+  siteId    String
+  createdAt DateTime @default(now())
+  status    String
+  details   Json
+  site      Website  @relation(fields: [siteId], references: [id])
+}
