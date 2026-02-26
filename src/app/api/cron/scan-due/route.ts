@@ -6,10 +6,10 @@ import { notifyNonCompliant } from "@/lib/email";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
-  // Sécurisation simple via header secret
-  const secret = req.headers.get("x-cron-secret");
-  if (!process.env.CRON_SECRET || secret !== process.env.CRON_SECRET) {
+export async function GET(req: Request) {
+  // Sécurisation via header Authorization envoyé automatiquement par Vercel Cron
+  const secret = req.headers.get("authorization");
+  if (!process.env.CRON_SECRET || secret !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
