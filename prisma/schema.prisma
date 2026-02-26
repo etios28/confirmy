@@ -15,6 +15,7 @@ enum Plan {
 
 model Website {
   id            String   @id @default(cuid())
+  userId        String
   url           String   @unique
   status        String   @default("pending")
   report        String?
