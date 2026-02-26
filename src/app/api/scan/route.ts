@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { auth } from "@clerk/nextjs/server";
 import { scanUrl } from "@/lib/scan";
 import { nextScanDate } from "@/lib/schedule";
 
@@ -7,12 +8,17 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Non authentifié." }, { status: 401 });
+    }
+
     const { url } = await req.json();
 
     if (!url)
       return NextResponse.json({ error: "URL manquante." }, { status: 400 });
 
-    // Vérifie la validité de l’URL
+    // Vérifie la validité de l'URL
     try {
       new URL(url);
     } catch {
@@ -22,12 +28,12 @@ export async function POST(req: Request) {
     // Lancement du scan
     const { status, report } = await scanUrl(url);
 
-    // Récupère l’ancien site s’il existe
+    // Récupère l'ancien site s'il existe
     const before = await prisma.website.findUnique({ where: { url } });
 
     const now = new Date();
-    const next = null; // Sera défini automatiquement plus tard par le cron
-    const chosenPlan = "SCAN_UNIQUE"; // Plan par défaut (scan à 4,99 €)
+    const next = null;
+    const chosenPlan = "SCAN_UNIQUE";
 
     // Enregistre ou met à jour le site
     const saved = await prisma.website.upsert({
@@ -42,6 +48,7 @@ export async function POST(req: Request) {
       },
       create: {
         url,
+        userId,
         status,
         report: JSON.stringify(report),
         lastScannedAt: now,
