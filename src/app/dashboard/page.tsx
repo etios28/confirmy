@@ -36,7 +36,7 @@ export default function DashboardPage() {
   }
 
   async function handleAddWebsite() {
-    if (!newUrl.trim()) return toast.error("Merci d’entrer une URL valide.");
+    if (!newUrl.trim()) return toast.error("Merci d'entrer une URL valide.");
     setLoading(true);
     await fetch("/api/scan", {
       method: "POST",
@@ -62,14 +62,73 @@ export default function DashboardPage() {
   function handleDownloadPDF(site: any) {
     const doc = new jsPDF();
     const report = site.report ? JSON.parse(site.report) : {};
+    const pageWidth = doc.internal.pageSize.getWidth();
 
+    // Header violet
+    doc.setFillColor(88, 28, 220);
+    doc.rect(0, 0, pageWidth, 30, "F");
+    doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
-    doc.text("Rapport de conformité - Conformy", 20, 20);
-    doc.setFontSize(12);
-    doc.text(`URL : ${site.url}`, 20, 35);
-    doc.text(`Statut : ${site.status}`, 20, 45);
-    doc.text(`Note : ${report.note_conformite ?? "-"}`, 20, 55);
-    doc.text(`Commentaires : ${report.commentaires ?? "-"}`, 20, 70);
+    doc.text("Rapport de conformite - Conformy", 15, 20);
+
+    // Infos principales
+    doc.setTextColor(30, 30, 30);
+    doc.setFontSize(11);
+    doc.text(`URL : ${site.url}`, 15, 45);
+    doc.text(`Statut : ${site.status === "compliant" ? "Conforme" : "Non conforme"}`, 15, 55);
+    doc.text(`Note de conformite : ${report.note_conformite ?? "-"} / 100`, 15, 65);
+    doc.text(`Date du scan : ${new Date(site.updatedAt).toLocaleDateString("fr-FR")}`, 15, 75);
+
+    // Commentaires
+    doc.setFontSize(13);
+    doc.setTextColor(88, 28, 220);
+    doc.text("Analyse", 15, 92);
+    doc.setFontSize(10);
+    doc.setTextColor(60, 60, 60);
+    const commentLines = doc.splitTextToSize(report.commentaires ?? "-", pageWidth - 30);
+    doc.text(commentLines, 15, 102);
+
+    let y = 102 + commentLines.length * 7;
+
+    // Détails
+    if (report.details) {
+      y += 10;
+      doc.setFontSize(13);
+      doc.setTextColor(88, 28, 220);
+      doc.text("Points verifies", 15, y);
+      y += 10;
+      doc.setFontSize(10);
+      doc.setTextColor(30, 30, 30);
+      const details: [string, boolean][] = [
+        ["Mentions legales", report.details.mentions_legales],
+        ["Politique de confidentialite", report.details.politique_confidentialite],
+        ["Bandeau cookies", report.details.bandeau_cookies],
+        ["CGV / CGU", report.details.cgv_cgu],
+        ["Donnees personnelles", report.details.donnees_personnelles],
+        ["Droit de rectification", report.details.droit_rectification],
+      ];
+      for (const [label, val] of details) {
+        doc.text(`${val ? "[OK]" : "[X]"} ${label}`, 15, y);
+        y += 8;
+      }
+    }
+
+    // Recommandations
+    if (report.recommandations?.length > 0) {
+      y += 8;
+      doc.setFontSize(13);
+      doc.setTextColor(88, 28, 220);
+      doc.text("Recommandations", 15, y);
+      y += 10;
+      doc.setFontSize(10);
+      doc.setTextColor(60, 60, 60);
+      for (const reco of report.recommandations) {
+        const lines = doc.splitTextToSize(`- ${reco}`, pageWidth - 30);
+        doc.text(lines, 15, y);
+        y += lines.length * 7;
+      }
+    }
+
     doc.save(`rapport_${site.url.replace(/https?:\/\//, "").replace(/\W+/g, "_")}.pdf`);
   }
 
@@ -188,27 +247,17 @@ export default function DashboardPage() {
                 <td className="p-3 text-sm text-gray-400">
                   {new Date(site.updatedAt).toLocaleDateString("fr-FR")}
                 </td>
-                
                 <td className="p-3 text-sm">
                   {site.plan === "PRO" ? (
-                    <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      PRO
-                    </span>
+                    <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">PRO</span>
                   ) : site.plan === "BUSINESS" ? (
-                    <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-semibold">
-                      BUSINESS
-                    </span>
+                    <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-semibold">BUSINESS</span>
                   ) : site.plan === "SCAN_UNIQUE" ? (
-                    <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      Scan unique
-                    </span>
+                    <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">Scan unique</span>
                   ) : (
-                    <span className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-xs font-semibold">
-                      -
-                    </span>
+                    <span className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-xs font-semibold">-</span>
                   )}
                 </td>
-
                 <td
                   className="p-3 flex gap-2"
                   onClick={(e) => e.stopPropagation()}

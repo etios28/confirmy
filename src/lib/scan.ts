@@ -19,7 +19,6 @@ export type ScanResult = {
 };
 
 export async function scanUrl(url: string): Promise<ScanResult> {
-  // 1) Fetch HTML
   const res = await fetch(url, {
     headers: { "User-Agent": "ConformyBot/1.0" },
     signal: AbortSignal.timeout(15000),
@@ -27,12 +26,10 @@ export async function scanUrl(url: string): Promise<ScanResult> {
   if (!res.ok) throw new Error("Impossible d'accéder au site.");
   const html = await res.text();
 
-  // 2) Extraire le texte visible avec cheerio
   const $ = cheerio.load(html);
   $("script, style, noscript, iframe").remove();
   const texte = $("body").text().replace(/\s+/g, " ").trim().slice(0, 8000);
 
-  // 3) Analyse basique (fallback)
   const keywords = [
     "mentions légales", "politique de confidentialité", "cookies",
     "rgpd", "données personnelles", "cgv", "cgu", "droit de rectification"
@@ -40,7 +37,6 @@ export async function scanUrl(url: string): Promise<ScanResult> {
   const lowerTexte = texte.toLowerCase();
   const foundKeywords = keywords.filter((k) => lowerTexte.includes(k));
 
-  // 4) Analyse IA avec Claude
   try {
     const prompt = `Tu es un expert juridique spécialisé en conformité légale des sites web français et européens (RGPD, loi Informatique et Libertés, directive ePrivacy, loi pour la confiance dans l'économie numérique).
 
@@ -64,7 +60,7 @@ Réponds UNIQUEMENT en JSON valide avec cette structure exacte :
 
 Critères d'évaluation :
 - Mentions légales obligatoires (éditeur, hébergeur, SIRET) : 20 pts
-- Politique de confidentialité RGPD complète : 20 pts  
+- Politique de confidentialité RGPD complète : 20 pts
 - Gestion des cookies conforme (bandeau, consentement) : 20 pts
 - CGV/CGU si site e-commerce ou SaaS : 15 pts
 - Droits des utilisateurs (accès, rectification, suppression) : 15 pts
@@ -87,7 +83,8 @@ Critères d'évaluation :
     if (aiRes.ok) {
       const aiData = await aiRes.json();
       const content = aiData.content?.[0]?.text || "";
-      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      const clean = content.replace(/```json|```/g, "").trim();
+      const jsonMatch = clean.match(/\{[\s\S]*\}/);
 
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
@@ -117,7 +114,6 @@ Critères d'évaluation :
     console.error("Erreur analyse IA, fallback basique:", e);
   }
 
-  // 5) Fallback si l'IA échoue
   const note = Math.round((foundKeywords.length / keywords.length) * 100);
   const status: "compliant" | "non_compliant" = note >= 60 ? "compliant" : "non_compliant";
 
