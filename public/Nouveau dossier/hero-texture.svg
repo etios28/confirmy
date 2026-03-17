@@ -1,0 +1,58 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" fill="transparent"/>
+  <g opacity="0.035" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="60" x2="1400" y2="60"/>
+    <line x1="0" y1="120" x2="1400" y2="120"/>
+    <line x1="0" y1="180" x2="1400" y2="180"/>
+    <line x1="0" y1="240" x2="1400" y2="240"/>
+    <line x1="0" y1="300" x2="1400" y2="300"/>
+    <line x1="0" y1="360" x2="1400" y2="360"/>
+    <line x1="0" y1="420" x2="1400" y2="420"/>
+    <line x1="0" y1="480" x2="1400" y2="480"/>
+    <line x1="0" y1="540" x2="1400" y2="540"/>
+    <line x1="0" y1="600" x2="1400" y2="600"/>
+    <line x1="0" y1="660" x2="1400" y2="660"/>
+    <line x1="0" y1="720" x2="1400" y2="720"/>
+    <line x1="0" y1="780" x2="1400" y2="780"/>
+    <line x1="0" y1="840" x2="1400" y2="840"/>
+    <line x1="100" y1="0" x2="100" y2="900"/>
+    <line x1="200" y1="0" x2="200" y2="900"/>
+    <line x1="300" y1="0" x2="300" y2="900"/>
+    <line x1="400" y1="0" x2="400" y2="900"/>
+    <line x1="500" y1="0" x2="500" y2="900"/>
+    <line x1="600" y1="0" x2="600" y2="900"/>
+    <line x1="700" y1="0" x2="700" y2="900"/>
+    <line x1="800" y1="0" x2="800" y2="900"/>
+    <line x1="900" y1="0" x2="900" y2="900"/>
+    <line x1="1000" y1="0" x2="1000" y2="900"/>
+    <line x1="1100" y1="0" x2="1100" y2="900"/>
+    <line x1="1200" y1="0" x2="1200" y2="900"/>
+    <line x1="1300" y1="0" x2="1300" y2="900"/>
+  </g>
+  <g opacity="0.055" fill="#a78bfa">
+    <circle cx="100" cy="60" r="1.2"/><circle cx="300" cy="60" r="1.2"/>
+    <circle cx="500" cy="60" r="1.2"/><circle cx="700" cy="60" r="1.2"/>
+    <circle cx="900" cy="60" r="1.2"/><circle cx="1100" cy="60" r="1.2"/>
+    <circle cx="1300" cy="60" r="1.2"/><circle cx="100" cy="180" r="1.2"/>
+    <circle cx="300" cy="180" r="1.2"/><circle cx="500" cy="180" r="1.2"/>
+    <circle cx="700" cy="180" r="1.2"/><circle cx="900" cy="180" r="1.2"/>
+    <circle cx="1100" cy="180" r="1.2"/><circle cx="1300" cy="180" r="1.2"/>
+    <circle cx="100" cy="300" r="1.2"/><circle cx="300" cy="300" r="1.2"/>
+    <circle cx="500" cy="300" r="1.2"/><circle cx="700" cy="300" r="1.2"/>
+    <circle cx="900" cy="300" r="1.2"/><circle cx="1100" cy="300" r="1.2"/>
+    <circle cx="100" cy="420" r="1.2"/><circle cx="300" cy="420" r="1.2"/>
+    <circle cx="700" cy="420" r="1.2"/><circle cx="1100" cy="420" r="1.2"/>
+    <circle cx="100" cy="540" r="1.2"/><circle cx="500" cy="540" r="1.2"/>
+    <circle cx="900" cy="540" r="1.2"/><circle cx="1300" cy="540" r="1.2"/>
+  </g>
+  <g opacity="0.04" fill="none" stroke="#7c3aed" stroke-width="0.8">
+    <polyline points="40,20 20,20 20,60"/>
+    <polyline points="80,20 20,20 20,80"/>
+    <polyline points="1360,20 1380,20 1380,60"/>
+    <polyline points="1320,20 1380,20 1380,80"/>
+    <polyline points="40,880 20,880 20,840"/>
+    <polyline points="1360,880 1380,880 1380,840"/>
+  </g>
+  <circle cx="700" cy="-200" r="700" fill="none" stroke="#7c3aed" stroke-width="0.5" opacity="0.05"/>
+  <circle cx="700" cy="-200" r="900" fill="none" stroke="#7c3aed" stroke-width="0.5" opacity="0.03"/>
+</svg>
