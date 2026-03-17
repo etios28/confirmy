@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -13,16 +12,11 @@ export default function Home() {
           0%   { background-position: -200% center; }
           100% { background-position:  200% center; }
         }
-        @keyframes float {
-          0%, 100% { transform: rotate(-3deg) translateY(0px); }
-          50%       { transform: rotate(-3deg) translateY(-10px); }
-        }
         .anim-1 { animation: fadeUp 0.7s ease both; }
         .anim-2 { animation: fadeUp 0.7s 0.12s ease both; }
         .anim-3 { animation: fadeUp 0.7s 0.22s ease both; }
         .anim-4 { animation: fadeUp 0.7s 0.32s ease both; }
         .anim-5 { animation: fadeUp 0.7s 0.42s ease both; }
-        .mockup-float { animation: float 6s ease-in-out infinite; }
 
         .hero-title {
           font-family: 'Playfair Display', Georgia, serif;
@@ -64,7 +58,6 @@ export default function Home() {
           white-space: nowrap;
         }
         .cta-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
-
         .feature-card {
           border: 1px solid rgba(255,255,255,0.07);
           border-radius: 16px; padding: 28px;
@@ -72,7 +65,6 @@ export default function Home() {
           transition: border-color 0.25s, transform 0.25s;
         }
         .feature-card:hover { border-color: rgba(124,58,237,0.3); transform: translateY(-3px); }
-
         .step-number {
           flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px;
           border: 1px solid rgba(124,58,237,0.35);
@@ -95,12 +87,10 @@ export default function Home() {
           font-family: 'DM Sans', sans-serif;
           letter-spacing: 0.04em; text-transform: uppercase;
         }
-        /* Responsive */
         @media (max-width: 768px) {
           .hero-inner { flex-direction: column !important; }
-          .hero-mockup { display: none !important; }
           .hero-text { max-width: 100% !important; }
-          .stats-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
           .features-grid { grid-template-columns: 1fr !important; }
           .steps-grid { grid-template-columns: 1fr !important; }
           .cta-buttons { flex-direction: column !important; align-items: stretch !important; }
@@ -120,23 +110,16 @@ export default function Home() {
         <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
           <div style={{ position: "absolute", top: "-15%", right: "5%", width: "700px", height: "700px", background: "radial-gradient(ellipse, rgba(124,58,237,0.1) 0%, transparent 65%)", borderRadius: "50%" }} />
           <div style={{ position: "absolute", bottom: "5%", left: "-10%", width: "500px", height: "500px", background: "radial-gradient(ellipse, rgba(79,70,229,0.07) 0%, transparent 65%)", borderRadius: "50%" }} />
-          {/* Texture grille */}
-          <img
-            src="/images/hero-texture.svg"
-            alt=""
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.5, mixBlendMode: "screen" }}
-          />
         </div>
 
-        {/* ── HERO ── */}
+        {/* HERO */}
         <section className="hero-pad" style={{ position: "relative", zIndex: 1, padding: "100px 48px 120px", maxWidth: "1200px", margin: "0 auto" }}>
           <div className="hero-inner" style={{ display: "flex", alignItems: "center", gap: "60px" }}>
-
-            {/* Texte */}
             <div className="hero-text" style={{ flex: "1 1 0", minWidth: 0 }}>
+
               <div className="anim-1 trust-badge" style={{ marginBottom: "36px" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#a78bfa", display: "inline-block", flexShrink: 0 }} />
-                RGPD · Mentions légales · Droit français
+                RGPD &middot; Mentions légales &middot; Droit français
               </div>
 
               <h1 className="hero-title anim-2">
@@ -166,21 +149,10 @@ export default function Home() {
                 Utilisé par des agences web, freelances et e-commerçants pour rester conformes sans juriste.
               </p>
             </div>
-
-            {/* Mockup flottant */}
-            <div className="hero-mockup anim-3" style={{ flexShrink: 0, width: "340px" }}>
-              <div className="mockup-float">
-                <img
-                  src="/images/report-mockup.svg"
-                  alt="Exemple de rapport Conformy"
-                  style={{ width: "100%", height: "auto", filter: "drop-shadow(0 32px 64px rgba(0,0,0,0.6)) drop-shadow(0 0 40px rgba(124,58,237,0.2))" }}
-                />
-              </div>
-            </div>
           </div>
         </section>
 
-        {/* ── STATS ── */}
+        {/* STATS */}
         <section className="section-pad" style={{
           position: "relative", zIndex: 1, padding: "52px 48px",
           borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)",
@@ -188,8 +160,8 @@ export default function Home() {
         }}>
           <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "48px", textAlign: "center" }}>
             {[
-              { value: "4,99 €",  sub: "Audit unique, sans abonnement" },
-              { value: "< 30 s",  sub: "Résultat immédiat, IA incluse" },
+              { value: "4,99 €",   sub: "Audit unique, sans abonnement" },
+              { value: "< 30 s",   sub: "Résultat immédiat, IA incluse" },
               { value: "6 points", sub: "de contrôle légaux vérifiés" },
             ].map((s) => (
               <div key={s.sub}>
@@ -200,9 +172,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── FEATURES ── */}
+        {/* FEATURES */}
         <section className="section-pad" style={{ position: "relative", zIndex: 1, padding: "110px 48px", maxWidth: "1200px", margin: "0 auto" }}>
-          <p className="section-label" style={{ textAlign: "center", display: "block", marginBottom: "14px" }}>Ce qu'on vérifie</p>
+          <p className="section-label" style={{ textAlign: "center", display: "block", marginBottom: "14px" }}>Ce qu&apos;on vérifie</p>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: "16px", textAlign: "center", color: "#f5f4f0" }}>
             Un audit complet, pas une checklist superficielle
           </h2>
@@ -211,12 +183,12 @@ export default function Home() {
           </p>
           <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
             {[
-              { icon: "⚖️", title: "Mentions légales",       desc: "Éditeur, hébergeur, SIRET — les obligations de la LCEN vérifiées à la lettre." },
-              { icon: "🔐", title: "RGPD & confidentialité", desc: "Politique de traitement, base légale, droits des personnes concernées." },
-              { icon: "🍪", title: "Gestion des cookies",    desc: "Bandeau de consentement, refus effectif, conformité à la directive ePrivacy." },
-              { icon: "📋", title: "CGV / CGU",              desc: "Conditions générales obligatoires pour tout site e-commerce ou SaaS." },
-              { icon: "🔔", title: "Alertes automatiques",   desc: "Dès qu'une régression est détectée, vous êtes averti avant d'être en infraction." },
-              { icon: "🤖", title: "Analyse par IA",         desc: "Claude analyse chaque page en profondeur — pas de faux positifs, pas de lacunes." },
+              { icon: "⚖️", title: "Mentions légales",        desc: "Éditeur, hébergeur, SIRET — les obligations de la LCEN vérifiées à la lettre." },
+              { icon: "🔒", title: "RGPD & confidentialité",  desc: "Politique de traitement, base légale, droits des personnes concernées." },
+              { icon: "🍪", title: "Gestion des cookies",     desc: "Bandeau de consentement, refus effectif, conformité à la directive ePrivacy." },
+              { icon: "📋", title: "CGV / CGU",               desc: "Conditions générales obligatoires pour tout site e-commerce ou SaaS." },
+              { icon: "🔔", title: "Alertes automatiques",    desc: "Dès qu'une régression est détectée, vous êtes averti avant d'être en infraction." },
+              { icon: "🤖", title: "Analyse par IA",          desc: "Claude analyse chaque page en profondeur — pas de faux positifs, pas de lacunes." },
             ].map((f) => (
               <div key={f.title} className="feature-card">
                 <div style={{ fontSize: "26px", marginBottom: "14px" }}>{f.icon}</div>
@@ -227,7 +199,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── HOW IT WORKS ── */}
+        {/* HOW IT WORKS */}
         <section className="section-pad" style={{ position: "relative", zIndex: 1, padding: "80px 48px", maxWidth: "1200px", margin: "0 auto", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
           <p className="section-label" style={{ textAlign: "center", display: "block", marginBottom: "14px" }}>Comment ça marche</p>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: "52px", textAlign: "center", color: "#f5f4f0" }}>
@@ -235,9 +207,9 @@ export default function Home() {
           </h2>
           <div className="steps-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "32px" }}>
             {[
-              { n: "01", title: "Entrez votre URL",    desc: "Collez l'adresse de votre site. Aucune installation, aucun plugin requis." },
-              { n: "02", title: "L'IA analyse",        desc: "Notre moteur lit le contenu de votre site et l'évalue sur 6 points juridiques clés." },
-              { n: "03", title: "Recevez le rapport",  desc: "Note de conformité, détail des manquements, recommandations actionnables." },
+              { n: "01", title: "Entrez votre URL",   desc: "Collez l'adresse de votre site. Aucune installation, aucun plugin requis." },
+              { n: "02", title: "L'IA analyse",       desc: "Notre moteur lit le contenu de votre site et l'évalue sur 6 points juridiques clés." },
+              { n: "03", title: "Recevez le rapport", desc: "Note de conformité, détail des manquements, recommandations actionnables." },
             ].map((step) => (
               <div key={step.n} style={{ display: "flex", gap: "20px" }}>
                 <div className="step-number">{step.n}</div>
@@ -250,7 +222,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── CTA FINAL ── */}
+        {/* CTA FINAL */}
         <section className="section-pad" style={{ position: "relative", zIndex: 1, padding: "80px 48px 100px", maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{
             border: "1px solid rgba(124,58,237,0.2)", borderRadius: "20px",
@@ -263,7 +235,7 @@ export default function Home() {
               Êtes-vous vraiment en conformité ?
             </h2>
             <p style={{ fontSize: "clamp(14px, 1.5vw, 17px)", color: "rgba(255,255,255,0.42)", marginBottom: "40px", maxWidth: "480px", margin: "0 auto 40px", lineHeight: 1.7, fontFamily: "'DM Sans', sans-serif", fontWeight: 300 }}>
-              La CNIL peut sanctionner votre site sans préavis. Un audit à 4,99 € aujourd'hui peut vous éviter des milliers d'euros de pénalités.
+              La CNIL peut sanctionner votre site sans préavis. Un audit à 4,99 € aujourd&apos;hui peut vous éviter des milliers d&apos;euros de pénalités.
             </p>
             <Link href="/pricing" className="cta-primary" style={{ fontSize: "16px", padding: "17px 36px" }}>
               Lancer mon audit — dès 4,99 €
@@ -271,7 +243,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── FOOTER ── */}
+        {/* FOOTER */}
         <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid rgba(255,255,255,0.05)", padding: "28px 48px" }}>
           <div className="footer-inner" style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ color: "rgba(255,255,255,0.22)", fontSize: "13px", fontFamily: "'DM Sans', sans-serif" }}>© 2026 Conformy — Tous droits réservés</span>
